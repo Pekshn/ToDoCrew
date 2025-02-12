@@ -22,7 +22,7 @@ struct ContentView: View {
     //MARK: - Body
     var body: some View {
         NavigationStack {
-            ZStack {
+            ZStack(alignment: .center) {
                 List {
                     ForEach(todos, id: \.self) { todo in
                         HStack {
@@ -77,14 +77,14 @@ struct ContentView: View {
                             .fill(themeManager.current.color)
                             .opacity(animatingButton ? 0.25 : 0)
                             .scaleEffect(animatingButton ? 1 : 0)
-                            .frame(width: 68, height: 68, alignment: .center)
+                            .frame(width: 72, height: 72, alignment: .center)
                         Circle()
                             .fill(themeManager.current.color)
                             .opacity(animatingButton ? 0.15 : 0)
                             .scaleEffect(animatingButton ? 1 : 0)
-                            .frame(width: 88, height: 88, alignment: .center)
+                            .frame(width: 96, height: 96, alignment: .center)
                     }
-                    .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: animatingButton)
+                    .animation(.easeIn(duration: 1.5).repeatForever(autoreverses: true), value: animatingButton)
                     
                     Button {
                         self.showingAddTodoView.toggle()

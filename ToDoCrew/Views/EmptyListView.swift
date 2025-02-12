@@ -49,9 +49,10 @@ struct EmptyListView: View {
             .padding(.horizontal)
             .opacity(isAnimated ? 1 : 0)
             .offset(y: isAnimated ? 0 : -50)
-            .animation(.easeOut(duration: 2), value: isAnimated)
             .onAppear {
-                self.isAnimated.toggle()
+                withAnimation(.easeOut(duration: 1.5)) {
+                    isAnimated.toggle()
+                }
             }
         } //: ZStack
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
