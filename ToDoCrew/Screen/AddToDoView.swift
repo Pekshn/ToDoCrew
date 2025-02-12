@@ -70,7 +70,6 @@ struct AddToDoView: View {
                 .padding(.vertical, 30)
                 
                 Spacer()
-                
             } //: VStack
             .navigationBarTitle("New ToDo", displayMode: .inline)
             .navigationBarItems(trailing: Button(action: {
@@ -80,7 +79,7 @@ struct AddToDoView: View {
             })) //: navigationBarItems
             .alert(isPresented: $errorShowing) {
                 Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK").foregroundColor(.black)))
-            }
+            } //: alert
         } //: NavigationStack
         .accentColor(themeManager.current.color)
     }

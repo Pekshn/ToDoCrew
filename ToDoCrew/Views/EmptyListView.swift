@@ -11,8 +11,9 @@ struct EmptyListView: View {
     
     //MARK: - Properties
     @State private var isAnimated = false
-    @State var selectedImage: String
-    @State var selectedTip: String
+    @State private var selectedImage: String
+    @State private var selectedTip: String
+    @EnvironmentObject var themeManager: ThemeManager
     private let images = ["illustration-no1", "illustration-no2", "illustration-no3"]
     private let tips = ["Use your time wisely.",
                         "Slow and steady wins the race.",
@@ -21,8 +22,8 @@ struct EmptyListView: View {
                         "Reward your self after work.",
                         "Collect tasks ahead of time",
                         "Each night schedule for tomorrow."]
-    @EnvironmentObject var themeManager: ThemeManager
     
+    //MARK: - Init
     init() {
         _selectedImage = State(initialValue: images.randomElement() ?? "illustration-no1")
         _selectedTip = State(initialValue: tips.randomElement() ?? "Use your time wisely.")

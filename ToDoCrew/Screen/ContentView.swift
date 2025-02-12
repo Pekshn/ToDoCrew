@@ -55,13 +55,12 @@ struct ContentView: View {
                     self.showingSettingsView.toggle()
                 }, label: {
                     Image(systemName: "paintbrush")
-                }))
+                })) //: navigationBarItems
                 .sheet(isPresented: $showingSettingsView) {
                     SettingsView()
                         .environmentObject(self.iconSettings)
-                }
+                } //: sheet
                 
-                //MARK: - No ToDo items
                 if todos.isEmpty {
                     EmptyListView()
                 }
@@ -69,7 +68,7 @@ struct ContentView: View {
             .sheet(isPresented: $showingAddTodoView) {
                 AddToDoView()
                     .environment(\.managedObjectContext, self.managedObjectContext)
-            }
+            } //: sheet
             .overlay(alignment: .bottomTrailing) {
                 ZStack {
                     Group {
@@ -78,12 +77,13 @@ struct ContentView: View {
                             .opacity(animatingButton ? 0.25 : 0)
                             .scaleEffect(animatingButton ? 1 : 0)
                             .frame(width: 72, height: 72, alignment: .center)
+                        
                         Circle()
                             .fill(themeManager.current.color)
                             .opacity(animatingButton ? 0.15 : 0)
                             .scaleEffect(animatingButton ? 1 : 0)
                             .frame(width: 96, height: 96, alignment: .center)
-                    }
+                    } //: Group
                     .animation(.easeIn(duration: 1.5).repeatForever(autoreverses: true), value: animatingButton)
                     
                     Button {
@@ -98,7 +98,7 @@ struct ContentView: View {
                     .accentColor(themeManager.current.color)
                     .onAppear {
                         animatingButton.toggle()
-                    }
+                    } //: onAppear
                 } //: ZStack
                 .padding(.bottom, 15)
                 .padding(.trailing, 15)
