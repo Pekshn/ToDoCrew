@@ -17,8 +17,7 @@ struct ContentView: View {
     @FetchRequest(entity: Todo.entity(), sortDescriptors: [NSSortDescriptor(keyPath:
         \Todo.name, ascending: true)]) var todos: FetchedResults<Todo>
     @EnvironmentObject var iconSettings: IconNames
-    @StateObject var theme = ThemeSettings()
-    var themes: [Theme] = themeData
+    @EnvironmentObject var themeManager: ThemeManager
     
     //MARK: - Body
     var body: some View {
@@ -28,8 +27,9 @@ struct ContentView: View {
                     ForEach(todos, id: \.self) { todo in
                         HStack {
                             Circle()
-                                .frame(width: 12, height: 12, alignment: .center)
+                                .frame(width: 15, height: 15, alignment: .center)
                                 .foregroundColor(self.colorize(priority: todo.priority ?? ""))
+                                .padding(.trailing, 10)
                             
                             Text(todo.name ?? "Unknown")
                                 .fontWeight(.semibold)
@@ -57,29 +57,29 @@ struct ContentView: View {
                     Image(systemName: "paintbrush")
                 }))
                 .sheet(isPresented: $showingSettingsView) {
-                    SettingsView(theme: theme)
+                    SettingsView()
                         .environmentObject(self.iconSettings)
                 }
                 
                 //MARK: - No ToDo items
                 if todos.isEmpty {
-                    EmptyListView(theme: theme)
+                    EmptyListView()
                 }
             } //: ZStack
             .sheet(isPresented: $showingAddTodoView) {
-                AddToDoView(theme: theme)
+                AddToDoView()
                     .environment(\.managedObjectContext, self.managedObjectContext)
             }
             .overlay(alignment: .bottomTrailing) {
                 ZStack {
                     Group {
                         Circle()
-                            .fill(themes[self.theme.themeSettings].themeColor)
+                            .fill(themeManager.current.color)
                             .opacity(animatingButton ? 0.25 : 0)
                             .scaleEffect(animatingButton ? 1 : 0)
                             .frame(width: 68, height: 68, alignment: .center)
                         Circle()
-                            .fill(themes[self.theme.themeSettings].themeColor)
+                            .fill(themeManager.current.color)
                             .opacity(animatingButton ? 0.15 : 0)
                             .scaleEffect(animatingButton ? 1 : 0)
                             .frame(width: 88, height: 88, alignment: .center)
@@ -95,7 +95,7 @@ struct ContentView: View {
                             .background(Circle().fill(.colorBase))
                             .frame(width: 48, height: 48, alignment: .center)
                     } //: Button
-                    .accentColor(themes[self.theme.themeSettings].themeColor)
+                    .accentColor(themeManager.current.color)
                     .onAppear {
                         animatingButton.toggle()
                     }
@@ -104,7 +104,7 @@ struct ContentView: View {
                 .padding(.trailing, 15)
             } //: overlay
         } //: NavigationStack
-        .accentColor(themes[self.theme.themeSettings].themeColor)
+        .accentColor(themeManager.current.color)
         .navigationViewStyle(StackNavigationViewStyle())
     }
 }
@@ -126,8 +126,8 @@ extension ContentView {
     
     private func colorize(priority: String) -> Color {
         switch priority {
-        case "Low": return .blue
-        case "Normal": return .green
+        case "Low": return .green
+        case "Medium": return .yellow
         case "High": return .pink
         default: return .gray
         }
@@ -141,5 +141,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
             .environment(\.managedObjectContext, context)
             .environmentObject(IconNames())
+            .environmentObject(ThemeManager())
     }
 }

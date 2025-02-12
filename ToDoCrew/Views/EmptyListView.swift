@@ -19,9 +19,7 @@ struct EmptyListView: View {
                         "Reward your self after work.",
                         "Collect tasks ahead of time",
                         "Each night schedule for tomorrow."]
-    
-    @ObservedObject var theme: ThemeSettings
-    var themes: [Theme] = themeData
+    @EnvironmentObject var themeManager: ThemeManager
     
     //MARK: - Body
     var body: some View {
@@ -34,17 +32,17 @@ struct EmptyListView: View {
                     .frame(minWidth: 256, idealWidth: 280, maxWidth: 360,
                            minHeight: 256, idealHeight: 280, maxHeight: 360, alignment: .center)
                     .layoutPriority(1)
-                    .foregroundColor(themes[self.theme.themeSettings].themeColor)
+                    .foregroundColor(themeManager.current.color)
                 
                 Text(tips.randomElement() ?? tips[0])
                     .layoutPriority(0.5)
                     .font(.system(.headline, design: .rounded))
-                    .foregroundColor(themes[self.theme.themeSettings].themeColor)
+                    .foregroundColor(themeManager.current.color)
             } //: VStack
             .padding(.horizontal)
             .opacity(isAnimated ? 1 : 0)
             .offset(y: isAnimated ? 0 : -50)
-            .animation(.easeOut(duration: 1), value: isAnimated)
+            .animation(.easeOut(duration: 2), value: isAnimated)
             .onAppear {
                 self.isAnimated.toggle()
             }
@@ -58,7 +56,8 @@ struct EmptyListView: View {
 //MARK: - Preview
 struct EmptyListView_Previews: PreviewProvider {
     static var previews: some View {
-        EmptyListView(theme: ThemeSettings())
+        EmptyListView()
+            .environmentObject(ThemeManager())
             .previewLayout(.sizeThatFits)
     }
 }

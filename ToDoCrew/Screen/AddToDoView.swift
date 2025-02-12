@@ -17,9 +17,8 @@ struct AddToDoView: View {
     @State private var errorShowing = false
     @State private var errorTitle = ""
     @State private var errorMessage = ""
-    private let priorites = ["Low, Medium, High"]
-    @ObservedObject var theme: ThemeSettings
-    var themes: [Theme] = themeData
+    private let priorites = ["Low", "Medium", "High"]
+    @EnvironmentObject var themeManager: ThemeManager
     
     //MARK: - Body
     var body: some View {
@@ -32,7 +31,7 @@ struct AddToDoView: View {
                             .background(Color(UIColor.tertiarySystemFill))
                             .cornerRadius(9)
                             .font(.system(size: 24, weight: .bold, design: .default))
-                            .accentColor(themes[self.theme.themeSettings].themeColor)
+                            .accentColor(themeManager.current.color)
                         
                         Picker("Priority", selection: $priority) {
                             ForEach(priorites, id: \.self) { priority in
@@ -62,7 +61,7 @@ struct AddToDoView: View {
                                 .font(.system(size: 24, weight: .bold, design: .default))
                                 .padding()
                                 .frame(minWidth: 0, maxWidth: .infinity)
-                                .background(themes[self.theme.themeSettings].themeColor)
+                                .background(themeManager.current.color)
                                 .cornerRadius(9)
                                 .foregroundColor(.white)
                         } //: Button
@@ -83,13 +82,14 @@ struct AddToDoView: View {
                 Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK").foregroundColor(.black)))
             }
         } //: NavigationStack
-        .accentColor(themes[self.theme.themeSettings].themeColor)
+        .accentColor(themeManager.current.color)
     }
 }
 
 //MARK: - Preview
 struct AddToDoView_Previews: PreviewProvider {
     static var previews: some View {
-        AddToDoView(theme: ThemeSettings())
+        AddToDoView()
+            .environmentObject(ThemeManager())
     }
 }

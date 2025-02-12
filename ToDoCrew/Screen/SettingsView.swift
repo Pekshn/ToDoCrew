@@ -12,8 +12,7 @@ struct SettingsView: View {
     //MARK: - Properties
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var iconSettings: IconNames
-    let themes: [Theme] = themeData
-    @ObservedObject var theme: ThemeSettings
+    @EnvironmentObject var themeManager: ThemeManager
     
     //MARK: - Body
     var body: some View {
@@ -77,24 +76,23 @@ struct SettingsView: View {
                             Image(systemName: "circle.dashed.inset.filled")
                                 .resizable()
                                 .frame(width: 15, height: 15)
-                                .foregroundColor(themes[self.theme.themeSettings].themeColor)
+                                .foregroundColor(themeManager.current.color)
                         }
                     ) {
                         List {
-                            ForEach(themes) { theme in
+                            ForEach(Theme.allCases, id: \.self) { theme in
                                 Button {
-                                    self.theme.themeSettings = theme.id
-                                    UserDefaults.standard.set(self.theme.themeSettings, forKey: "Theme")
+                                    themeManager.current = theme
                                 } label: {
                                     HStack {
-                                        Text(theme.themeName)
-                                        
+                                        Text(theme.rawValue)
+
                                         Spacer()
-                                        
-                                        Image(systemName: theme.id == self.theme.themeSettings ? "circle.dashed.inset.filled" : "circle.dashed")
+
+                                        Image(systemName: theme.rawValue == themeManager.current.rawValue ? "circle.dashed.inset.filled" : "circle.dashed")
                                             .resizable()
                                             .frame(width: 20, height: 20)
-                                            .foregroundColor(theme.themeColor)
+                                            .foregroundColor(theme.color)
                                     } //: HStack
                                 } //: Button
                                 .accentColor(.primary)
@@ -136,7 +134,7 @@ struct SettingsView: View {
             .navigationBarTitle("Settings", displayMode: .inline)
             .background(.colorBackground)
         } //: NavigationStack
-        .accentColor(themes[self.theme.themeSettings].themeColor)
+        .accentColor(themeManager.current.color)
         .navigationViewStyle(StackNavigationViewStyle())
     }
 }
@@ -144,7 +142,8 @@ struct SettingsView: View {
 //MARK: - Preview
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(theme: ThemeSettings())
+        SettingsView()
             .environmentObject(IconNames())
+            .environmentObject(ThemeManager())
     }
 }

@@ -11,8 +11,9 @@ import SwiftUI
 struct ToDoCrewApp: App {
     
     //MARK: - Properties
-    let persistenceController = PersistenceController.shared
-    let iconNames = IconNames()
+    @StateObject private var themeManager = ThemeManager()
+    private let persistenceController = PersistenceController.shared
+    private let iconNames = IconNames()
     
     //MARK: - Bodys
     var body: some Scene {
@@ -20,6 +21,7 @@ struct ToDoCrewApp: App {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environmentObject(iconNames)
+                .environmentObject(themeManager)
         }
     }
 }
