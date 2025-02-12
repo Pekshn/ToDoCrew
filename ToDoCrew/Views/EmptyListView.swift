@@ -11,6 +11,8 @@ struct EmptyListView: View {
     
     //MARK: - Properties
     @State private var isAnimated = false
+    @State var selectedImage: String
+    @State var selectedTip: String
     private let images = ["illustration-no1", "illustration-no2", "illustration-no3"]
     private let tips = ["Use your time wisely.",
                         "Slow and steady wins the race.",
@@ -21,11 +23,16 @@ struct EmptyListView: View {
                         "Each night schedule for tomorrow."]
     @EnvironmentObject var themeManager: ThemeManager
     
+    init() {
+        _selectedImage = State(initialValue: images.randomElement() ?? "illustration-no1")
+        _selectedTip = State(initialValue: tips.randomElement() ?? "Use your time wisely.")
+    }
+    
     //MARK: - Body
     var body: some View {
         ZStack {
             VStack(alignment: .center, spacing: 20) {
-                Image(images.randomElement() ?? images[0])
+                Image(selectedImage)
                     .renderingMode(.template)
                     .resizable()
                     .scaledToFit()
@@ -34,7 +41,7 @@ struct EmptyListView: View {
                     .layoutPriority(1)
                     .foregroundColor(themeManager.current.color)
                 
-                Text(tips.randomElement() ?? tips[0])
+                Text(selectedTip)
                     .layoutPriority(0.5)
                     .font(.system(.headline, design: .rounded))
                     .foregroundColor(themeManager.current.color)
