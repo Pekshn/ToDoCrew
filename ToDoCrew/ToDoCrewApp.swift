@@ -11,17 +11,15 @@ import SwiftUI
 struct ToDoCrewApp: App {
     
     //MARK: - Properties
-    @StateObject private var themeManager = ThemeManager()
     private let persistenceController = PersistenceController.shared
     private let iconNames = IconNames()
     
     //MARK: - Bodys
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            ContentView(viewContext: persistenceController.container.viewContext)
                 .environmentObject(iconNames)
-                .environmentObject(themeManager)
+                .environmentObject(ThemeManager.shared)
         }
     }
 }

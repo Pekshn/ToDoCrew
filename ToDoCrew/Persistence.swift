@@ -26,7 +26,7 @@ struct PersistenceController {
             try viewContext.save()
         } catch {
             let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            assertionFailure("Unresolved error: \(error.localizedDescription)")
         }
         return result
     }()
@@ -37,7 +37,11 @@ struct PersistenceController {
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "ToDoCrew")
         if inMemory {
-            container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+            if let storeDescription = container.persistentStoreDescriptions.first {
+                storeDescription.url = URL(fileURLWithPath: "/dev/null")
+            } else {
+                assertionFailure("Failed to get persistentStoreDescriptions")
+            }
         }
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {

@@ -7,14 +7,21 @@
 
 import SwiftUI
 
+protocol AppIconChanger {
+    func setAlternateIconName(_ iconName: String?, completion: @escaping (Error?) -> Void)
+    var alternateIconName: String? { get }
+}
+
 class IconNames: ObservableObject {
     
     //MARK: - Properties
+    private let appIconChanger: AppIconChanger
     var iconNames: [String?] = [nil]
     @Published var currentIndex = 0
     
     //MARK: - Init
-    init() {
+    init(appIconChanger: AppIconChanger = UIApplication.shared) {
+        self.appIconChanger = appIconChanger
         getAlternateIconNames()
         if let currentIcon = UIApplication.shared.alternateIconName {
             self.currentIndex = iconNames.firstIndex(of: currentIcon) ?? 0
@@ -30,6 +37,20 @@ class IconNames: ObservableObject {
                 guard let iconFiles = iconList["CFBundleIconFiles"] as? [String] else { return }
                 guard let icon = iconFiles.first else { return }
                 iconNames.append(icon)
+            }
+        }
+    }
+    
+    //MARK: - Update icon
+    func updateAppIcon(to index: Int) {
+        let newIconName = iconNames[index]
+        if newIconName != appIconChanger.alternateIconName {
+            appIconChanger.setAlternateIconName(newIconName) { error in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    print("Successfully changed app icon")
+                }
             }
         }
     }

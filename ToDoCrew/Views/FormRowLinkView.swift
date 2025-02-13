@@ -14,6 +14,7 @@ struct FormRowLinkView: View {
     var color: Color
     var text: String
     var link: String
+    var openURL: (URL) -> Void = { UIApplication.shared.open($0) }
     
     //MARK: - Body
     var body: some View {
@@ -34,8 +35,8 @@ struct FormRowLinkView: View {
             Spacer()
             
             Button {
-                guard let url = URL(string: self.link), UIApplication.shared.canOpenURL(url) else { return }
-                UIApplication.shared.open(url)
+                guard let url = URL(string: link), UIApplication.shared.canOpenURL(url) else { return }
+                openURL(url)
             } label: {
                 Image(systemName: "chevron.right")
                     .font(.system(size: 14, weight: .semibold, design: .rounded))

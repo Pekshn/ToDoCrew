@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ContentView: View {
     
@@ -13,22 +14,25 @@ struct ContentView: View {
     @State private var showingAddTodoView = false
     @State private var animatingButton = false
     @State private var showingSettingsView = false
-    @Environment(\.managedObjectContext) var managedObjectContext
-    @FetchRequest(entity: Todo.entity(), sortDescriptors: [NSSortDescriptor(keyPath:
-        \Todo.name, ascending: true)]) var todos: FetchedResults<Todo>
     @EnvironmentObject var iconSettings: IconNames
     @EnvironmentObject var themeManager: ThemeManager
+    @StateObject private var viewModel: TodoViewModel
+    
+    //MARK: - Init
+    init(viewContext: NSManagedObjectContext) {
+        _viewModel = StateObject(wrappedValue: TodoViewModel(context: viewContext))
+    }
     
     //MARK: - Body
     var body: some View {
         NavigationStack {
             ZStack(alignment: .center) {
                 List {
-                    ForEach(todos, id: \.self) { todo in
+                    ForEach(viewModel.todos, id: \.self) { todo in
                         HStack {
                             Circle()
                                 .frame(width: 15, height: 15, alignment: .center)
-                                .foregroundColor(self.colorize(priority: todo.priority ?? ""))
+                                .foregroundColor(viewModel.colorize(priority: todo.priority ?? ""))
                                 .padding(.trailing, 10)
                             
                             Text(todo.name ?? "Unknown")
@@ -48,7 +52,7 @@ struct ContentView: View {
                         } //: HStack
                         .padding(.vertical, 10)
                     } //: ForEach
-                    .onDelete(perform: deleteTodo)
+                    .onDelete(perform: viewModel.deleteTodo)
                 } //: List
                 .navigationBarTitle("Todo", displayMode: .inline)
                 .navigationBarItems(leading: EditButton(), trailing: Button(action: {
@@ -61,13 +65,12 @@ struct ContentView: View {
                         .environmentObject(self.iconSettings)
                 } //: sheet
                 
-                if todos.isEmpty {
+                if viewModel.todos.isEmpty {
                     EmptyListView()
                 }
             } //: ZStack
             .sheet(isPresented: $showingAddTodoView) {
-                AddToDoView()
-                    .environment(\.managedObjectContext, self.managedObjectContext)
+                AddToDoView(viewModel: viewModel)
             } //: sheet
             .overlay(alignment: .bottomTrailing) {
                 ZStack {
@@ -105,32 +108,6 @@ struct ContentView: View {
             } //: overlay
         } //: NavigationStack
         .accentColor(themeManager.current.color)
-        .navigationViewStyle(StackNavigationViewStyle())
-    }
-}
-
-//MARK: - Private API
-extension ContentView {
-    
-    private func deleteTodo(at offsets: IndexSet) {
-        for index in offsets {
-            let todo = todos[index]
-            managedObjectContext.delete(todo)
-            do {
-                try managedObjectContext.save()
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
-    private func colorize(priority: String) -> Color {
-        switch priority {
-        case "Low": return .green
-        case "Medium": return .yellow
-        case "High": return .pink
-        default: return .gray
-        }
     }
 }
 
@@ -138,9 +115,9 @@ extension ContentView {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let context = PersistenceController.shared.container.viewContext
-        ContentView()
+        ContentView(viewContext: context)
             .environment(\.managedObjectContext, context)
             .environmentObject(IconNames())
-            .environmentObject(ThemeManager())
+            .environmentObject(ThemeManager.shared)
     }
 }

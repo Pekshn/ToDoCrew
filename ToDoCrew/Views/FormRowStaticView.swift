@@ -19,7 +19,7 @@ struct FormRowStaticView: View {
         HStack {
             ZStack {
                 RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .fill(.gray)
+                    .fill(Color(.systemGray3))
                 
                 Image(systemName: icon)
                     .foregroundColor(.white)

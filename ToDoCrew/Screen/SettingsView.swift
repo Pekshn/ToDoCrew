@@ -37,7 +37,7 @@ struct SettingsView: View {
                         }) {
                             ForEach(0..<iconSettings.iconNames.count, id: \.self) { index in
                                 HStack {
-                                    Image(uiImage: UIImage(named: self.iconSettings.iconNames[index] ?? "Blue") ?? UIImage())
+                                    Image(uiImage: UIImage(named: iconSettings.iconNames[index] ?? "Blue") ?? UIImage())
                                         .resizable()
                                         .renderingMode(.original)
                                         .scaledToFit()
@@ -53,18 +53,9 @@ struct SettingsView: View {
                             } //: ForEach
                         } //: Picker
                         .pickerStyle(.navigationLink)
-                        .onReceive([self.iconSettings.currentIndex].publisher.first()) { value in
-                            let index = self.iconSettings.iconNames.firstIndex(of: UIApplication.shared.alternateIconName) ?? 0
-                            if index != value {
-                                UIApplication.shared.setAlternateIconName(self.iconSettings.iconNames[value]) { error in
-                                    if let error = error {
-                                        print(error.localizedDescription)
-                                    } else {
-                                        print("Successfully changed app icon")
-                                    }
-                                }
-                            }
-                        } //: onReceive
+                        .onChange(of: iconSettings.currentIndex) { newValue in
+                            iconSettings.updateAppIcon(to: newValue)
+                        } //: onChange
                     } //: Section
                     .padding(.vertical, 3)
                     
@@ -95,7 +86,7 @@ struct SettingsView: View {
                                             .foregroundColor(theme.color)
                                     } //: HStack
                                 } //: Button
-                                .accentColor(.primary)
+                                .foregroundColor(.primary)
                             } //: ForEach
                         } //: List
                     } //: Section
@@ -135,7 +126,6 @@ struct SettingsView: View {
             .background(.colorBackground)
         } //: NavigationStack
         .accentColor(themeManager.current.color)
-        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
@@ -144,6 +134,6 @@ struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
             .environmentObject(IconNames())
-            .environmentObject(ThemeManager())
+            .environmentObject(ThemeManager.shared)
     }
 }

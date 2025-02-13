@@ -10,15 +10,18 @@ import SwiftUI
 struct AddToDoView: View {
     
     //MARK: - Properties
-    @Environment(\.managedObjectContext) var managedObjectContext
+    @ObservedObject var viewModel: TodoViewModel
     @Environment(\.presentationMode) var presentationMode
-    @State private var name = ""
-    @State private var priority = "Normal"
-    @State private var errorShowing = false
-    @State private var errorTitle = ""
-    @State private var errorMessage = ""
-    private let priorites = ["Low", "Medium", "High"]
     @EnvironmentObject var themeManager: ThemeManager
+    @State private var name = ""
+    @State private var priority: String
+    @State private var errorShowing = false
+    
+    //MARK: - Init
+    init(viewModel: TodoViewModel) {
+        self.viewModel = viewModel
+        _priority = State(initialValue: viewModel.priorities[1])
+    }
     
     //MARK: - Body
     var body: some View {
@@ -34,27 +37,18 @@ struct AddToDoView: View {
                             .accentColor(themeManager.current.color)
                         
                         Picker("Priority", selection: $priority) {
-                            ForEach(priorites, id: \.self) { priority in
+                            ForEach(viewModel.priorities, id: \.self) { priority in
                                 Text(priority)
                             } //: ForEach
                         } //: Picker
                         .pickerStyle(SegmentedPickerStyle())
                         
                         Button {
-                            if self.name != "" {
-                                let todo = Todo(context: self.managedObjectContext)
-                                todo.name = self.name
-                                todo.priority = self.priority
-                                do {
-                                    try self.managedObjectContext.save()
-                                } catch {
-                                    print(error)
-                                }
-                                self.presentationMode.wrappedValue.dismiss()
+                            if viewModel.isValidTodo(name: name) {
+                                viewModel.addTodo(name: name, priority: priority)
+                                presentationMode.wrappedValue.dismiss()
                             } else {
-                                self.errorShowing = true
-                                self.errorTitle = "Invalid name"
-                                self.errorMessage = "Make sure to enter something for\nthe new todo item."
+                                errorShowing = true
                             }
                         } label: {
                             Text("Save")
@@ -78,7 +72,7 @@ struct AddToDoView: View {
                 Image(systemName: "xmark")
             })) //: navigationBarItems
             .alert(isPresented: $errorShowing) {
-                Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK").foregroundColor(.black)))
+                Alert(title: Text(viewModel.errorTitle), message: Text(viewModel.errorMessage), dismissButton: .default(Text("OK").foregroundColor(.black)))
             } //: alert
         } //: NavigationStack
         .accentColor(themeManager.current.color)
@@ -88,7 +82,8 @@ struct AddToDoView: View {
 //MARK: - Preview
 struct AddToDoView_Previews: PreviewProvider {
     static var previews: some View {
-        AddToDoView()
-            .environmentObject(ThemeManager())
+        let context = PersistenceController.shared.container.viewContext
+        AddToDoView(viewModel: TodoViewModel(context: context))
+            .environmentObject(ThemeManager.shared)
     }
 }
