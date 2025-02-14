@@ -7,9 +7,9 @@ ToDoCrew iOS app covering:
   -  E2E Testing – Validating the entire app flow from start to finish.
   -  Continuous Integration (CI) – Automating builds and tests.
   -  GitHub Actions – CI/CD pipeline for automatic testing.
-  -  Dynamic Content – Fresh content with every Home screen visit.
   -  SwiftUI Animations – Smooth and elegant animation effects.
   -  Custom Themes – Personalized app with unique selectable color schemes.
+  -  Dynamic Content – Fresh content with every Home screen visit.
   -  App Icon Picker – Choose your favorite icon to match your style.
 
 📌 Note: No external dependencies – Just download and run.
