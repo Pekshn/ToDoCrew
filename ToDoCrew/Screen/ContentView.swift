@@ -14,8 +14,8 @@ struct ContentView: View {
     @State private var showingAddTodoView = false
     @State private var animatingButton = false
     @State private var showingSettingsView = false
-    @EnvironmentObject var iconSettings: IconNames
-    @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject private var iconSettings: IconNames
+    @EnvironmentObject private var themeManager: ThemeManager
     @StateObject private var viewModel: TodoViewModel
     
     //MARK: - Init

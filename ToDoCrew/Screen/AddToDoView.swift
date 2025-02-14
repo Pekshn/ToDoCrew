@@ -10,9 +10,9 @@ import SwiftUI
 struct AddToDoView: View {
     
     //MARK: - Properties
-    @ObservedObject var viewModel: TodoViewModel
-    @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var themeManager: ThemeManager
+    @ObservedObject private var viewModel: TodoViewModel
+    @Environment(\.presentationMode) private var presentationMode
+    @EnvironmentObject private var themeManager: ThemeManager
     @State private var name = ""
     @State private var priority: String
     @State private var errorShowing = false

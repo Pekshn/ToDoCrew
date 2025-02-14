@@ -10,9 +10,9 @@ import SwiftUI
 struct SettingsView: View {
     
     //MARK: - Properties
-    @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var iconSettings: IconNames
-    @EnvironmentObject var themeManager: ThemeManager
+    @Environment(\.presentationMode) private var presentationMode
+    @EnvironmentObject private var iconSettings: IconNames
+    @EnvironmentObject private var themeManager: ThemeManager
     
     //MARK: - Body
     var body: some View {

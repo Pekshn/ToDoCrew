@@ -13,7 +13,7 @@ struct EmptyListView: View {
     @State private var isAnimated = false
     private let selectedImage: String
     private let selectedTip: String
-    @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject private var themeManager: ThemeManager
     private let images = [Constants.illustrationNo1, Constants.illustrationNo2, Constants.illustrationNo3]
     private let tips = [Localization.tip1, Localization.tip2, Localization.tip3,
                         Localization.tip4, Localization.tip5, Localization.tip6,

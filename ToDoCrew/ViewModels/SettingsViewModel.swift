@@ -13,7 +13,7 @@ class SettingsViewModel: ObservableObject {
     @Published var currentIconIndex: Int
     @Published var currentTheme: Theme
     private let themeManager: ThemeManager
-    let iconNames: [String]
+    private let iconNames: [String]
     
     //MARK: - Init
     init(themeManager: ThemeManager, iconNames: [String], currentIconIndex: Int) {
