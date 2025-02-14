@@ -19,19 +19,19 @@ struct SettingsView: View {
         NavigationStack {
             VStack(alignment: .center, spacing: 0) {
                 Form {
-                    Section(header: Text("Choose the App icon")) {
+                    Section(header: Text(Localization.chooseIcon)) {
                         Picker(selection: $iconSettings.currentIndex, label: HStack {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 9, style: .continuous)
                                     .stroke(.primary, lineWidth: 2)
                                 
-                                Image(systemName: "paintbrush")
+                                Image(systemName: Constants.systemPaintbrush)
                                     .font(.system(size: 28, weight: .regular, design: .default))
                                     .foregroundColor(.primary)
                             } //: ZStack
                             .frame(width: 36, height: 36)
                             
-                            Text("AppIcon")
+                            Text(Localization.appIcon)
                                 .fontWeight(.bold)
                                 .foregroundColor(.primary)
                         }) {
@@ -61,10 +61,10 @@ struct SettingsView: View {
                     
                     Section(header:
                         HStack {
-                            Text("Choose the app theme")
+                        Text(Localization.chooseTheme)
                             .padding(.trailing, 3)
                             
-                            Image(systemName: "circle.dashed.inset.filled")
+                        Image(systemName: Constants.systemCircleDashedFilled)
                                 .resizable()
                                 .frame(width: 15, height: 15)
                                 .foregroundColor(themeManager.current.color)
@@ -76,11 +76,11 @@ struct SettingsView: View {
                                     themeManager.current = theme
                                 } label: {
                                     HStack {
-                                        Text(theme.rawValue)
+                                        Text(theme.title)
 
                                         Spacer()
 
-                                        Image(systemName: theme.rawValue == themeManager.current.rawValue ? "circle.dashed.inset.filled" : "circle.dashed")
+                                        Image(systemName: theme.rawValue == themeManager.current.rawValue ? Constants.systemCircleDashedFilled : Constants.systemCircleDashed)
                                             .resizable()
                                             .frame(width: 20, height: 20)
                                             .foregroundColor(theme.color)
@@ -92,25 +92,33 @@ struct SettingsView: View {
                     } //: Section
                     .padding(.vertical, 3)
                     
-                    Section(header: Text("Follow us on social media")) {
-                        FormRowLinkView(icon: "globe", color: .pink, text: "Website", link: "https://github.com")
-                        FormRowLinkView(icon: "link", color: .blue, text: "Twitter", link: "https://twitter.com")
-                        FormRowLinkView(icon: "play.rectangle", color: .green, text: "Courses", link: "https://udemy.com")
+                    Section(header: Text(Localization.followUs)) {
+                        FormRowLinkView(icon: Constants.globe, color: .pink,
+                            text: Localization.website, link: Constants.gitHub)
+                        FormRowLinkView(icon: Constants.link, color: .blue,
+                            text: Localization.twitter, link: Constants.twitter)
+                        FormRowLinkView(icon: Constants.playRectangle, color: .green,
+                            text: Localization.courses, link: Constants.udemy)
                     } //: Section
                     .padding(.vertical, 3)
                     
-                    Section(header: Text("About the application")) {
-                        FormRowStaticView(icon: "gear", firstText: "Application", secondText: "Todo")
-                        FormRowStaticView(icon: "checkmark.seal", firstText: "Compatibility", secondText: "iPhone, iPad")
-                        FormRowStaticView(icon: "keyboard", firstText: "Developer", secondText: "Petar")
-                        FormRowStaticView(icon: "paintbrush", firstText: "Thanks to", secondText: "Robert Petras")
-                        FormRowStaticView(icon: "flag", firstText: "Version", secondText: "1.0.0")
+                    Section(header: Text(Localization.aboutTheApp)) {
+                        FormRowStaticView(icon: Constants.gear,
+                            firstText: Localization.application, secondText: Localization.todo)
+                        FormRowStaticView(icon: Constants.checkmarkSeal,
+                            firstText: Localization.compatibility, secondText: Localization.iPhoneIPad)
+                        FormRowStaticView(icon: Constants.keyboard,
+                            firstText: Localization.developer, secondText: Localization.developerValue)
+                        FormRowStaticView(icon: Constants.paintbrush,
+                            firstText: Localization.thanksTo, secondText: Localization.thanksToValue)
+                        FormRowStaticView(icon: Constants.flag,
+                            firstText: Localization.version, secondText: Localization.versionValue)
                     } //: Section
                     .padding(.vertical, 3)
                 } //: Form
                 
                 //MARK: - Footer
-                Text("Copyright © Petar Novakovic \nAll right reserved")
+                Text(Localization.copyrightInfo)
                     .multilineTextAlignment(.center)
                     .font(.footnote)
                     .padding(.top, 6)
@@ -120,9 +128,9 @@ struct SettingsView: View {
             .navigationBarItems(trailing: Button(action: {
                 self.presentationMode.wrappedValue.dismiss()
             }, label: {
-                Image(systemName: "xmark")
-            })) //: navigationBarItems
-            .navigationBarTitle("Settings", displayMode: .inline)
+                Image(systemName: Constants.systemXmark)
+            })) //: navigationBarItem
+            .navigationBarTitle(Localization.settings, displayMode: .inline)
             .background(.colorBackground)
         } //: NavigationStack
         .accentColor(themeManager.current.color)

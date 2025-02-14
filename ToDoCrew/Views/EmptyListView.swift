@@ -14,16 +14,15 @@ struct EmptyListView: View {
     private let selectedImage: String
     private let selectedTip: String
     @EnvironmentObject var themeManager: ThemeManager
-    private let images = ["illustration-no1", "illustration-no2", "illustration-no3"]
-    private let tips = ["Use your time wisely.", "Slow and steady wins the race.",
-                        "Keep it short and sweet.", "Put hard tasks first.",
-                        "Reward your self after work.", "Collect tasks ahead of time",
-                        "Each night schedule for tomorrow."]
+    private let images = [Constants.illustrationNo1, Constants.illustrationNo2, Constants.illustrationNo3]
+    private let tips = [Localization.tip1, Localization.tip2, Localization.tip3,
+                        Localization.tip4, Localization.tip5, Localization.tip6,
+                        Localization.tip7]
     
     //MARK: - Init
     init(selectedImage: String? = nil, selectedTip: String? = nil) {
-        self.selectedImage = selectedImage ?? images.randomElement() ?? "illustration-no1"
-        self.selectedTip = selectedTip ?? tips.randomElement() ?? "Use your time wisely."
+        self.selectedImage = selectedImage ?? images.randomElement() ?? Constants.illustrationNo1
+        self.selectedTip = selectedTip ?? tips.randomElement() ?? Localization.tip1
     }
     
     //MARK: - Body

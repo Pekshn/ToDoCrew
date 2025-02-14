@@ -35,12 +35,12 @@ struct ContentView: View {
                                 .foregroundColor(viewModel.colorize(priority: todo.priority ?? ""))
                                 .padding(.trailing, 10)
                             
-                            Text(todo.name ?? "Unknown")
+                            Text(todo.name ?? Localization.unknown)
                                 .fontWeight(.semibold)
                             
                             Spacer()
                             
-                            Text(todo.priority ?? "Unknown")
+                            Text(todo.priority ?? Localization.unknown)
                                 .font(.footnote)
                                 .foregroundColor(.init(uiColor: UIColor.systemGray2))
                                 .padding(3)
@@ -54,11 +54,11 @@ struct ContentView: View {
                     } //: ForEach
                     .onDelete(perform: viewModel.deleteTodo)
                 } //: List
-                .navigationBarTitle("Todo", displayMode: .inline)
+                .navigationBarTitle(Localization.todo, displayMode: .inline)
                 .navigationBarItems(leading: EditButton(), trailing: Button(action: {
                     self.showingSettingsView.toggle()
                 }, label: {
-                    Image(systemName: "paintbrush")
+                    Image(systemName: Constants.systemPaintbrush)
                 })) //: navigationBarItems
                 .sheet(isPresented: $showingSettingsView) {
                     SettingsView()
@@ -92,7 +92,7 @@ struct ContentView: View {
                     Button {
                         self.showingAddTodoView.toggle()
                     } label: {
-                        Image(systemName: "plus.circle.fill")
+                        Image(systemName: Constants.systemPlusCircleFill)
                             .resizable()
                             .scaledToFit()
                             .background(Circle().fill(.colorBase))

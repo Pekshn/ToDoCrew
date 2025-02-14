@@ -1,0 +1,48 @@
+/* 
+  Localizable.strings
+  ToDoCrew
+
+  Created by Petar  on 14.2.25..
+  
+*/
+
+"Pink theme" = "Pink theme";
+"Blue theme" = "Blue theme";
+"Green theme" = "Green theme";
+"Todo" = "Todo";
+"Priority" = "Priority";
+"Save" = "Save";
+"New Todo" = "New Todo";
+"OK" = "OK";
+"Unknown" = "Unknown";
+"Choose the App icon" = "Choose the App icon";
+"AppIcon" = "AppIcon";
+"Choose the app theme" = "Choose the app theme";
+"Follow us on social media" = "Follow us on social media";
+"Website" = "Website";
+"Twitter" = "Twitter";
+"Courses" = "Courses";
+"About the application" = "About the application";
+"Application" = "Application";
+"Compatibility" = "Compatibility";
+"Developer" = "Developer";
+"Thanks to" = "Thanks to";
+"Version" = "Version";
+"Copyright info" = "Copyright © Petar Novakovic \nAll right reserved";
+"Settings" = "Settings";
+"iPhone, iPad" = "iPhone, iPad";
+"Low" = "Low";
+"Medium" = "Medium";
+"High" = "High";
+"Invalid name" = "Invalid name";
+"Make sure info" = "Make sure to enter something for the new todo item.";
+"DeveloperValue" = "Petar";
+"ThanksToValue" = "Robert Petras";
+"VersionValue" = "1.0.0";
+"Use your time wisely." = "Use your time wisely.";
+"Slow and steady wins the race." = "Slow and steady wins the race.";
+"Keep it short and sweet." = "Keep it short and sweet.";
+"Put hard tasks first." = "Put hard tasks first.";
+"Reward your self after work." = "Reward your self after work.";
+"Collect tasks ahead of time" = "Collect tasks ahead of time";
+"Each night schedule for tomorrow." = "Each night schedule for tomorrow.";

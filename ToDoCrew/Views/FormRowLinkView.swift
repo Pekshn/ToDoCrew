@@ -38,7 +38,7 @@ struct FormRowLinkView: View {
                 guard let url = URL(string: link), UIApplication.shared.canOpenURL(url) else { return }
                 openURL(url)
             } label: {
-                Image(systemName: "chevron.right")
+                Image(systemName: Constants.systemChevronRight)
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
                     .accentColor(Color(.systemGray2))
             } //: Button

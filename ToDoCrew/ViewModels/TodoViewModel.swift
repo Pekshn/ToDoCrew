@@ -14,7 +14,7 @@ class TodoViewModel: ObservableObject {
     //MARK: - Properties
     @Published var todos: [Todo] = []
     private let context: NSManagedObjectContext
-    let priorities = ["Low", "Medium", "High"]
+    let priorities = [Localization.low, Localization.medium, Localization.high]
     private(set) var errorTitle = ""
     private(set) var errorMessage = ""
     
@@ -30,17 +30,17 @@ extension TodoViewModel {
     
     func colorize(priority: String) -> Color {
         switch priority {
-        case "Low": return .green
-        case "Medium": return .yellow
-        case "High": return .pink
+        case Localization.low: return .green
+        case Localization.medium: return .yellow
+        case Localization.high: return .pink
         default: return .gray
         }
     }
     
     func isValidTodo(name: String) -> Bool {
         if name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            errorTitle = "Invalid name"
-            errorMessage = "Make sure to enter something for the new todo item."
+            errorTitle = Localization.invalidName
+            errorMessage = Localization.makeSureInfo
             return false
         }
         return true

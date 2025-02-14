@@ -29,14 +29,14 @@ struct AddToDoView: View {
             VStack {
                 VStack(alignment: .leading, spacing: 20) {
                     Form {
-                        TextField("Todo", text: $name)
+                        TextField(Localization.todo, text: $name)
                             .padding()
                             .background(Color(UIColor.tertiarySystemFill))
                             .cornerRadius(9)
                             .font(.system(size: 24, weight: .bold, design: .default))
                             .accentColor(themeManager.current.color)
                         
-                        Picker("Priority", selection: $priority) {
+                        Picker(Localization.priority, selection: $priority) {
                             ForEach(viewModel.priorities, id: \.self) { priority in
                                 Text(priority)
                             } //: ForEach
@@ -51,7 +51,7 @@ struct AddToDoView: View {
                                 errorShowing = true
                             }
                         } label: {
-                            Text("Save")
+                            Text(Localization.save)
                                 .font(.system(size: 24, weight: .bold, design: .default))
                                 .padding()
                                 .frame(minWidth: 0, maxWidth: .infinity)
@@ -65,14 +65,14 @@ struct AddToDoView: View {
                 
                 Spacer()
             } //: VStack
-            .navigationBarTitle("New ToDo", displayMode: .inline)
+            .navigationBarTitle(Localization.newTodo, displayMode: .inline)
             .navigationBarItems(trailing: Button(action: {
                 self.presentationMode.wrappedValue.dismiss()
             }, label: {
-                Image(systemName: "xmark")
+                Image(systemName: Constants.systemXmark)
             })) //: navigationBarItems
             .alert(isPresented: $errorShowing) {
-                Alert(title: Text(viewModel.errorTitle), message: Text(viewModel.errorMessage), dismissButton: .default(Text("OK").foregroundColor(.black)))
+                Alert(title: Text(viewModel.errorTitle), message: Text(viewModel.errorMessage), dismissButton: .default(Text(Localization.oK).foregroundColor(.black)))
             } //: alert
         } //: NavigationStack
         .accentColor(themeManager.current.color)
