@@ -54,7 +54,7 @@ struct ContentView: View {
                     } //: ForEach
                     .onDelete(perform: viewModel.deleteTodo)
                 } //: List
-                .navigationBarTitle(Localization.todo, displayMode: .inline)
+                .navigationBarTitle(Localization.todoCrew, displayMode: .inline)
                 .navigationBarItems(leading: EditButton(), trailing: Button(action: {
                     self.showingSettingsView.toggle()
                 }, label: {

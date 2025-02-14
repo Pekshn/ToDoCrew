@@ -105,7 +105,7 @@ struct SettingsView: View {
                     
                     Section(header: Text(Localization.aboutTheApp)) {
                         FormRowStaticView(icon: Constants.gear,
-                            firstText: Localization.application, secondText: Localization.todo)
+                            firstText: Localization.application, secondText: Localization.todoCrew)
                         FormRowStaticView(icon: Constants.checkmarkSeal,
                             firstText: Localization.compatibility, secondText: Localization.iPhoneIPad)
                         FormRowStaticView(icon: Constants.keyboard,

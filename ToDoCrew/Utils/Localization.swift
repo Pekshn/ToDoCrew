@@ -10,6 +10,7 @@ import Foundation
 struct Localization {
     
     //MARK: - Properties
+    static var todoCrew: String { Localizator.get("TodoCrew") }
     static var pinkTheme: String { Localizator.get("Pink theme") }
     static var blueTheme: String { Localizator.get("Blue theme") }
     static var greenTheme: String { Localizator.get("Green theme") }
