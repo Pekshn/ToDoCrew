@@ -10,6 +10,7 @@ ToDoCrew iOS app covering:
   -  Continuous Integration (CI) – Automating builds and tests.
   -  GitHub Actions – CI/CD pipeline for automatic testing.
   -  iPad Support – Optimized UI and layout adjustments for larger screens.
+  -  Dynamic Content – Fresh content with every Home screen visit.
   -  SwiftUI Animations – Smooth and elegant animation effects.
   -  Adaptive Appearance – Seamless transition between dark and light modes.
   -  Custom Themes – Personalized app with unique selectable color schemes.
