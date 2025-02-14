@@ -11,8 +11,12 @@ struct SettingsView: View {
     
     //MARK: - Properties
     @Environment(\.presentationMode) private var presentationMode
-    @EnvironmentObject private var iconSettings: IconNames
-    @EnvironmentObject private var themeManager: ThemeManager
+    @StateObject private var viewModel: SettingsViewModel
+    
+    //MARK: - Init
+    init(iconSettings: IconNames, themeManager: ThemeManager) {
+        _viewModel = StateObject(wrappedValue: SettingsViewModel(iconSettings: iconSettings, themeManager: themeManager))
+    }
     
     //MARK: - Body
     var body: some View {
@@ -20,7 +24,7 @@ struct SettingsView: View {
             VStack(alignment: .center, spacing: 0) {
                 Form {
                     Section(header: Text(Localization.chooseIcon)) {
-                        Picker(selection: $iconSettings.currentIndex, label: HStack {
+                        Picker(selection: $viewModel.iconSettings.currentIndex, label: HStack {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 9, style: .continuous)
                                     .stroke(.primary, lineWidth: 2)
@@ -35,9 +39,9 @@ struct SettingsView: View {
                                 .fontWeight(.bold)
                                 .foregroundColor(.primary)
                         }) {
-                            ForEach(0..<iconSettings.iconNames.count, id: \.self) { index in
+                            ForEach(0..<viewModel.iconSettings.iconNames.count, id: \.self) { index in
                                 HStack {
-                                    Image(uiImage: UIImage(named: iconSettings.iconNames[index] ?? "Blue") ?? UIImage())
+                                    Image(uiImage: UIImage(named: viewModel.iconSettings.iconNames[index] ?? "Blue") ?? UIImage())
                                         .resizable()
                                         .renderingMode(.original)
                                         .scaledToFit()
@@ -46,15 +50,15 @@ struct SettingsView: View {
                                     
                                     Spacer().frame(width: 8)
                                     
-                                    Text(self.iconSettings.iconNames[index] ?? "Blue")
+                                    Text(viewModel.iconSettings.iconNames[index] ?? "Blue")
                                         .frame(alignment: .leading)
                                 } //: HStack
                                 .padding(3)
                             } //: ForEach
                         } //: Picker
                         .pickerStyle(.navigationLink)
-                        .onChange(of: iconSettings.currentIndex) { newValue in
-                            iconSettings.updateAppIcon(to: newValue)
+                        .onChange(of: viewModel.iconSettings.currentIndex) { newValue in
+                            viewModel.updateAppIcon(to: newValue)
                         } //: onChange
                     } //: Section
                     .padding(.vertical, 3)
@@ -67,20 +71,20 @@ struct SettingsView: View {
                         Image(systemName: Constants.systemCircleDashedFilled)
                                 .resizable()
                                 .frame(width: 15, height: 15)
-                                .foregroundColor(themeManager.current.color)
+                                .foregroundColor(viewModel.currentTheme.color)
                         }
                     ) {
                         List {
                             ForEach(Theme.allCases, id: \.self) { theme in
                                 Button {
-                                    themeManager.current = theme
+                                    viewModel.updateTheme(to: theme)
                                 } label: {
                                     HStack {
                                         Text(theme.title)
 
                                         Spacer()
 
-                                        Image(systemName: theme.rawValue == themeManager.current.rawValue ? Constants.systemCircleDashedFilled : Constants.systemCircleDashed)
+                                        Image(systemName: theme.rawValue == viewModel.currentTheme.rawValue ? Constants.systemCircleDashedFilled : Constants.systemCircleDashed)
                                             .resizable()
                                             .frame(width: 20, height: 20)
                                             .foregroundColor(theme.color)
@@ -133,15 +137,13 @@ struct SettingsView: View {
             .navigationBarTitle(Localization.settings, displayMode: .inline)
             .background(.colorBackground)
         } //: NavigationStack
-        .accentColor(themeManager.current.color)
+        .accentColor(viewModel.currentTheme.color)
     }
 }
 
 //MARK: - Preview
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
-            .environmentObject(IconNames())
-            .environmentObject(ThemeManager.shared)
+        SettingsView(iconSettings: IconNames(), themeManager: ThemeManager.shared)
     }
 }

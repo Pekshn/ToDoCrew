@@ -61,8 +61,7 @@ struct ContentView: View {
                     Image(systemName: Constants.systemPaintbrush)
                 })) //: navigationBarItems
                 .sheet(isPresented: $showingSettingsView) {
-                    SettingsView()
-                        .environmentObject(self.iconSettings)
+                    SettingsView(iconSettings: iconSettings, themeManager: themeManager)
                 } //: sheet
                 
                 if viewModel.todos.isEmpty {

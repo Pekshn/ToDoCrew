@@ -6,39 +6,37 @@
 //
 
 import SwiftUI
+import Combine
 
 class SettingsViewModel: ObservableObject {
     
     // MARK: - Properties
-    @Published var currentIconIndex: Int
+    @Published var iconSettings: IconNames
     @Published var currentTheme: Theme
-    private let themeManager: ThemeManager
-    private let iconNames: [String]
+    private var cancellables = Set<AnyCancellable>()
     
-    //MARK: - Init
-    init(themeManager: ThemeManager, iconNames: [String], currentIconIndex: Int) {
-        self.themeManager = themeManager
-        self.iconNames = iconNames
-        self.currentIconIndex = currentIconIndex
-        self.currentTheme = themeManager.current
-    }
-}
+    private var themeManager: ThemeManager
 
-//MARK: - Public API
-extension SettingsViewModel {
-    
-    //MARK: - Methods
-    func updateAppIcon() {
-        guard iconNames.indices.contains(currentIconIndex) else { return }
-        UIApplication.shared.setAlternateIconName(iconNames[currentIconIndex]) { error in
-            if let error = error {
-                print("Failed to change app icon: \(error.localizedDescription)")
+    // Dependency Injection
+    init(iconSettings: IconNames, themeManager: ThemeManager) {
+        self.iconSettings = iconSettings
+        self.themeManager = themeManager
+        self.currentTheme = themeManager.current
+        
+        themeManager.$current
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] newTheme in
+                self?.currentTheme = newTheme
             }
-        }
+            .store(in: &cancellables)
+    }
+    
+    // Methods
+    func updateAppIcon(to index: Int) {
+        iconSettings.updateAppIcon(to: index)
     }
     
     func updateTheme(to theme: Theme) {
-        themeManager.current = theme
-        currentTheme = theme
+        themeManager.updateTheme(theme)
     }
 }
