@@ -14,7 +14,7 @@ struct ContentView: View {
     @State private var showingAddTodoView = false
     @State private var animatingButton = false
     @State private var showingSettingsView = false
-    @EnvironmentObject private var iconSettings: IconNames
+    @EnvironmentObject private var iconSettings: IconManager
     @EnvironmentObject private var themeManager: ThemeManager
     @StateObject private var viewModel: TodoViewModel
     
@@ -116,7 +116,7 @@ struct ContentView_Previews: PreviewProvider {
         let context = PersistenceController.shared.container.viewContext
         ContentView(viewContext: context)
             .environment(\.managedObjectContext, context)
-            .environmentObject(IconNames())
+            .environmentObject(IconManager())
             .environmentObject(ThemeManager.shared)
     }
 }

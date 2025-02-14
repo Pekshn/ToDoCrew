@@ -11,14 +11,14 @@ import Combine
 class SettingsViewModel: ObservableObject {
     
     // MARK: - Properties
-    @Published var iconSettings: IconNames
+    @Published var iconSettings: IconManager
     @Published var currentTheme: Theme
     private var cancellables = Set<AnyCancellable>()
     
     private var themeManager: ThemeManager
 
     // Dependency Injection
-    init(iconSettings: IconNames, themeManager: ThemeManager) {
+    init(iconSettings: IconManager, themeManager: ThemeManager) {
         self.iconSettings = iconSettings
         self.themeManager = themeManager
         self.currentTheme = themeManager.current

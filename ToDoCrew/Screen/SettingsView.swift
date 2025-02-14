@@ -14,7 +14,7 @@ struct SettingsView: View {
     @StateObject private var viewModel: SettingsViewModel
     
     //MARK: - Init
-    init(iconSettings: IconNames, themeManager: ThemeManager) {
+    init(iconSettings: IconManager, themeManager: ThemeManager) {
         _viewModel = StateObject(wrappedValue: SettingsViewModel(iconSettings: iconSettings, themeManager: themeManager))
     }
     
@@ -144,6 +144,6 @@ struct SettingsView: View {
 //MARK: - Preview
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(iconSettings: IconNames(), themeManager: ThemeManager.shared)
+        SettingsView(iconSettings: IconManager(), themeManager: ThemeManager.shared)
     }
 }

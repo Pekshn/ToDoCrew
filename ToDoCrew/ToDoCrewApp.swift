@@ -12,7 +12,7 @@ struct ToDoCrewApp: App {
     
     //MARK: - Properties
     private let persistenceController = PersistenceController.shared
-    private let iconNames = IconNames()
+    private let iconNames = IconManager()
     
     //MARK: - Bodys
     var body: some Scene {

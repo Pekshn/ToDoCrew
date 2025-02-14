@@ -32,6 +32,7 @@ struct Constants {
     
     //Keys
     static let themeKey = "Theme"
+    static let iconKey = "SelectedIcon"
     
     //Websites
     static let gitHub = "https://github.com"
