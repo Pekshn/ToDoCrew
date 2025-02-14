@@ -16,11 +16,11 @@ struct ContentView: View {
     @State private var showingSettingsView = false
     @EnvironmentObject private var iconManager: IconManager
     @EnvironmentObject private var themeManager: ThemeManager
-    @StateObject private var viewModel: TodoViewModel
+    @ObservedObject private var viewModel: TodoViewModel
     
     //MARK: - Init
-    init(viewContext: NSManagedObjectContext) {
-        _viewModel = StateObject(wrappedValue: TodoViewModel(context: viewContext))
+    init(viewModel: TodoViewModel) {
+        self.viewModel = viewModel
     }
     
     //MARK: - Body
@@ -61,8 +61,7 @@ struct ContentView: View {
                     Image(systemName: Constants.systemPaintbrush)
                 })) //: navigationBarItems
                 .sheet(isPresented: $showingSettingsView) {
-                    let settingsVM = SettingsViewModel(iconManager: iconManager, themeManager: themeManager)
-                    SettingsView(viewModel: settingsVM)
+                    SettingsView()
                 } //: sheet
                 
                 if viewModel.todos.isEmpty {
@@ -115,8 +114,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let context = PersistenceController.shared.container.viewContext
-        ContentView(viewContext: context)
-            .environment(\.managedObjectContext, context)
+        ContentView(viewModel: TodoViewModel(context: context))
             .environmentObject(IconManager())
             .environmentObject(ThemeManager.shared)
     }

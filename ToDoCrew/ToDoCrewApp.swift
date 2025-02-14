@@ -17,7 +17,8 @@ struct ToDoCrewApp: App {
     //MARK: - Bodys
     var body: some Scene {
         WindowGroup {
-            ContentView(viewContext: persistenceController.container.viewContext)
+            let viewModel = TodoViewModel(context: persistenceController.container.viewContext)
+            ContentView(viewModel: viewModel)
                 .environmentObject(iconNames)
                 .environmentObject(ThemeManager.shared)
         }

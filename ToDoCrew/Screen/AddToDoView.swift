@@ -11,7 +11,7 @@ struct AddToDoView: View {
     
     //MARK: - Properties
     @ObservedObject private var viewModel: TodoViewModel
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var themeManager: ThemeManager
     @State private var name = ""
     @State private var priority: String
@@ -46,7 +46,7 @@ struct AddToDoView: View {
                         Button {
                             if viewModel.isValidTodo(name: name) {
                                 viewModel.addTodo(name: name, priority: priority)
-                                presentationMode.wrappedValue.dismiss()
+                                dismiss()
                             } else {
                                 errorShowing = true
                             }
@@ -67,7 +67,7 @@ struct AddToDoView: View {
             } //: VStack
             .navigationBarTitle(Localization.newTodo, displayMode: .inline)
             .navigationBarItems(trailing: Button(action: {
-                self.presentationMode.wrappedValue.dismiss()
+                dismiss()
             }, label: {
                 Image(systemName: Constants.systemXmark)
             })) //: navigationBarItems
