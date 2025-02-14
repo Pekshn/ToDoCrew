@@ -11,15 +11,15 @@ import Combine
 class SettingsViewModel: ObservableObject {
     
     // MARK: - Properties
-    @Published var iconSettings: IconManager
+    @Published var iconManager: IconManager
     @Published var currentTheme: Theme
     private var cancellables = Set<AnyCancellable>()
     
     private var themeManager: ThemeManager
 
     // Dependency Injection
-    init(iconSettings: IconManager, themeManager: ThemeManager) {
-        self.iconSettings = iconSettings
+    init(iconManager: IconManager, themeManager: ThemeManager) {
+        self.iconManager = iconManager
         self.themeManager = themeManager
         self.currentTheme = themeManager.current
         
@@ -33,7 +33,7 @@ class SettingsViewModel: ObservableObject {
     
     // Methods
     func updateAppIcon(to index: Int) {
-        iconSettings.updateAppIcon(to: index)
+        iconManager.updateAppIcon(to: index)
     }
     
     func updateTheme(to theme: Theme) {

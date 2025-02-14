@@ -14,7 +14,7 @@ struct ContentView: View {
     @State private var showingAddTodoView = false
     @State private var animatingButton = false
     @State private var showingSettingsView = false
-    @EnvironmentObject private var iconSettings: IconManager
+    @EnvironmentObject private var iconManager: IconManager
     @EnvironmentObject private var themeManager: ThemeManager
     @StateObject private var viewModel: TodoViewModel
     
@@ -61,7 +61,8 @@ struct ContentView: View {
                     Image(systemName: Constants.systemPaintbrush)
                 })) //: navigationBarItems
                 .sheet(isPresented: $showingSettingsView) {
-                    SettingsView(iconSettings: iconSettings, themeManager: themeManager)
+                    let settingsVM = SettingsViewModel(iconManager: iconManager, themeManager: themeManager)
+                    SettingsView(viewModel: settingsVM)
                 } //: sheet
                 
                 if viewModel.todos.isEmpty {

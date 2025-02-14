@@ -10,12 +10,12 @@ import SwiftUI
 struct SettingsView: View {
     
     //MARK: - Properties
-    @Environment(\.presentationMode) private var presentationMode
-    @StateObject private var viewModel: SettingsViewModel
+    @Environment(\.dismiss) private var dismiss
+    @ObservedObject private var viewModel: SettingsViewModel
     
     //MARK: - Init
-    init(iconSettings: IconManager, themeManager: ThemeManager) {
-        _viewModel = StateObject(wrappedValue: SettingsViewModel(iconSettings: iconSettings, themeManager: themeManager))
+    init(viewModel: SettingsViewModel) {
+        self.viewModel = viewModel
     }
     
     //MARK: - Body
@@ -24,7 +24,7 @@ struct SettingsView: View {
             VStack(alignment: .center, spacing: 0) {
                 Form {
                     Section(header: Text(Localization.chooseIcon)) {
-                        Picker(selection: $viewModel.iconSettings.currentIndex, label: HStack {
+                        Picker(selection: $viewModel.iconManager.currentIndex, label: HStack {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 9, style: .continuous)
                                     .stroke(.primary, lineWidth: 2)
@@ -39,9 +39,9 @@ struct SettingsView: View {
                                 .fontWeight(.bold)
                                 .foregroundColor(.primary)
                         }) {
-                            ForEach(0..<viewModel.iconSettings.iconNames.count, id: \.self) { index in
+                            ForEach(0..<viewModel.iconManager.iconNames.count, id: \.self) { index in
                                 HStack {
-                                    Image(uiImage: UIImage(named: viewModel.iconSettings.iconNames[index] ?? "Blue") ?? UIImage())
+                                    Image(uiImage: UIImage(named: viewModel.iconManager.iconNames[index] ?? "Blue") ?? UIImage())
                                         .resizable()
                                         .renderingMode(.original)
                                         .scaledToFit()
@@ -50,14 +50,14 @@ struct SettingsView: View {
                                     
                                     Spacer().frame(width: 8)
                                     
-                                    Text(viewModel.iconSettings.iconNames[index] ?? "Blue")
+                                    Text(viewModel.iconManager.iconNames[index] ?? "Blue")
                                         .frame(alignment: .leading)
                                 } //: HStack
                                 .padding(3)
                             } //: ForEach
                         } //: Picker
                         .pickerStyle(.navigationLink)
-                        .onChange(of: viewModel.iconSettings.currentIndex) { newValue in
+                        .onChange(of: viewModel.iconManager.currentIndex) { newValue in
                             viewModel.updateAppIcon(to: newValue)
                         } //: onChange
                     } //: Section
@@ -130,7 +130,7 @@ struct SettingsView: View {
                     .foregroundColor(.secondary)
             } //: VStack
             .navigationBarItems(trailing: Button(action: {
-                self.presentationMode.wrappedValue.dismiss()
+                dismiss()
             }, label: {
                 Image(systemName: Constants.systemXmark)
             })) //: navigationBarItem
@@ -144,6 +144,7 @@ struct SettingsView: View {
 //MARK: - Preview
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(iconSettings: IconManager(), themeManager: ThemeManager.shared)
+        let settingsViewModel = SettingsViewModel(iconManager: IconManager(), themeManager: ThemeManager.shared)
+        SettingsView(viewModel: settingsViewModel)
     }
 }
