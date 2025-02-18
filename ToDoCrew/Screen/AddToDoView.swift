@@ -30,6 +30,7 @@ struct AddToDoView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     Form {
                         TextField(Localization.todo, text: $name)
+                            .accessibilityIdentifier("todoTitleField")
                             .padding()
                             .background(Color(UIColor.tertiarySystemFill))
                             .cornerRadius(9)
@@ -59,6 +60,7 @@ struct AddToDoView: View {
                                 .cornerRadius(9)
                                 .foregroundColor(.white)
                         } //: Button
+                        .accessibilityIdentifier("saveTodoButton")
                     } //: Form
                 } //: VStack
                 .padding(.vertical, 30)

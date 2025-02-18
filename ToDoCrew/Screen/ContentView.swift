@@ -54,6 +54,7 @@ struct ContentView: View {
                     } //: ForEach
                     .onDelete(perform: viewModel.deleteTodo)
                 } //: List
+                .accessibilityIdentifier("taskList")
                 .navigationBarTitle(Localization.todoCrew, displayMode: .inline)
                 .navigationBarItems(leading: EditButton(), trailing: Button(action: {
                     self.showingSettingsView.toggle()
@@ -97,6 +98,7 @@ struct ContentView: View {
                             .background(Circle().fill(.colorBase))
                             .frame(width: 48, height: 48, alignment: .center)
                     } //: Button
+                    .accessibilityIdentifier("addTodoButton")
                     .accentColor(themeManager.current.color)
                     .onAppear {
                         animatingButton.toggle()
