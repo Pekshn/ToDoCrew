@@ -38,6 +38,18 @@
 			);
 			target = 94155A952D5CDCC500C97B0E /* ToDoCrew */;
 		};
+		943EB1A52D63BDC900678290 /* Exceptions for "ToDoCrew" folder in "ToDoCrewTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Managers/IconManager.swift,
+				Managers/IconService.swift,
+				Managers/ThemeManager.swift,
+				Model/Theme.swift,
+				Utils/Constants.swift,
+				Utils/Localization.swift,
+			);
+			target = 943EB0BD2D5FC21100678290 /* ToDoCrewTests */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -45,6 +57,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				94258D702D5D0D1400C46604 /* Exceptions for "ToDoCrew" folder in "ToDoCrew" target */,
+				943EB1A52D63BDC900678290 /* Exceptions for "ToDoCrew" folder in "ToDoCrewTests" target */,
 			);
 			path = ToDoCrew;
 			sourceTree = "<group>";

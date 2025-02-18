@@ -15,7 +15,7 @@ class ThemeManager: ObservableObject {
     private let storage: UserDefaults
 
     //MARK: - Init
-    private init(storage: UserDefaults = .standard) {
+    init(storage: UserDefaults = .standard) {
         self.storage = storage
         let savedTheme = storage.string(forKey: Constants.themeKey)
         self.current = Theme(rawValue: savedTheme ?? Theme.pink.rawValue) ?? .pink
