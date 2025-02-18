@@ -42,7 +42,6 @@ class IconManagerTests: XCTestCase {
         iconManager.iconNames.append(newIconName)
         let newAppIndex = iconManager.iconNames.lastIndex(where: { $0 == newIconName })!
         iconManager.updateAppIcon(to: newAppIndex)
-        
         let expectation = expectation(description: "App icon should update asynchronously")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
             XCTAssertEqual(self?.mockIconService.setIconCalledWith, newIconName, "Icon name should be updated")
@@ -59,7 +58,6 @@ class IconManagerTests: XCTestCase {
         let newAppIndex = iconManager.iconNames.lastIndex(where: { $0 == newIconName })!
         mockIconService.completionError = NSError(domain: "TestError", code: 1, userInfo: nil)
         iconManager.updateAppIcon(to: newAppIndex)
-        
         let expectation = expectation(description: "App icon should update asynchronously")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
             XCTAssertEqual(self?.mockIconService.setIconCalledWith, newIconName, "On failure, the icon name should be passed")

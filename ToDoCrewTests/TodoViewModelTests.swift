@@ -40,7 +40,6 @@ class TodoViewModelTests: XCTestCase {
         viewModel.addTodo(name: "Test Task", priority: Localization.high)
         let fetchRequest: NSFetchRequest<Todo> = Todo.fetchRequest()
         let results = try? mockContext.fetch(fetchRequest)
-        
         XCTAssertEqual(results?.count, 1)
         XCTAssertEqual(results?.first?.name, "Test Task")
         XCTAssertEqual(results?.first?.priority, Localization.high)
@@ -49,10 +48,8 @@ class TodoViewModelTests: XCTestCase {
     func test_whenOneAndOnlyTaskIsDeleted_shouldNotHaveMoreTasks() {
         viewModel.addTodo(name: "Task to Delete", priority: Localization.medium)
         viewModel.fetchTodos()
-        
         XCTAssertEqual(viewModel.todos.count, 1)
         viewModel.deleteTodo(at: IndexSet(arrayLiteral: 0))
-        
         viewModel.fetchTodos()
         XCTAssertEqual(viewModel.todos.count, 0)
     }
